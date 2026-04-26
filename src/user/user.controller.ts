@@ -12,6 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/decorators/public.decorators';
 import { Roles } from 'src/auth/decorators/role.decorators';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 
 @Controller('user')
@@ -22,6 +23,7 @@ export class UserController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
+  @ApiBearerAuth('access-token')
 @Roles('ADMIN')
   @Get('findall')
   findAll() {
