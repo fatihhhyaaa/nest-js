@@ -12,7 +12,17 @@ import { MemberModule } from './member/member.module';
 import { TranksaksiModule } from './tranksaksi/tranksaksi.module';
 
 @Module({
-  imports: [PrismaModule, BcryptModule, UserModule, AuthModule, StudentModule, WalasModule, BookModule, MemberModule, TranksaksiModule],
+  imports: [
+    PrismaModule,
+    BcryptModule,
+    UserModule,
+    AuthModule,
+    StudentModule,
+    WalasModule,
+    BookModule,
+    MemberModule,
+    TranksaksiModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
