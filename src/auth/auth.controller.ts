@@ -6,7 +6,8 @@ import { Public } from './decorators/public.decorators';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-@Public()
+
+  @Public()
   @Post('login')
   async authenticate(@Body() authDto: AuthDto) {
     return await this.authService.authenticate(authDto);
