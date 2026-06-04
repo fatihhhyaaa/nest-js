@@ -10,7 +10,10 @@ export class StudentService {
   async create(createStudentDto: CreateStudentDto) {
     try {
       const add = await this.prisma.student.create({
-        data: { ...createStudentDto },
+        data: {
+          ...createStudentDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!add) {
@@ -33,13 +36,6 @@ export class StudentService {
     try {
       const find = await this.prisma.student.findMany({});
 
-      if (find) {
-        throw new HttpException(
-          'failed getting all student',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
       return find;
     } catch (error) {
       if (error instanceof HttpException) {
@@ -55,11 +51,8 @@ export class StudentService {
         where: { id },
       });
 
-      if (find) {
-        throw new HttpException(
-          'failed getting student',
-          HttpStatus.BAD_REQUEST,
-        );
+      if (!find) {
+        throw new HttpException('student not found', HttpStatus.NOT_FOUND);
       }
 
       return find;
@@ -75,7 +68,10 @@ export class StudentService {
     try {
       const updt = await this.prisma.student.update({
         where: { id },
-        data: { ...updateStudentDto },
+        data: {
+          ...updateStudentDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!updt) {

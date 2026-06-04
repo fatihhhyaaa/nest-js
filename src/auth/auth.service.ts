@@ -55,7 +55,7 @@ export class AuthService {
       };
     } catch (error) {
       if (error instanceof HttpException) {
-        return error;
+        throw error;
       } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
@@ -73,7 +73,10 @@ export class AuthService {
             );
         }
       }
-      console.log(error);
+      throw new HttpException(
+        { message: 'Unexpected authentication error' },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

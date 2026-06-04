@@ -10,7 +10,10 @@ export class MemberService {
   async create(createMemberDto: CreateMemberDto) {
     try {
       const add = await this.prisma.member.create({
-        data: { ...createMemberDto },
+        data: {
+          ...createMemberDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!add) {
@@ -33,13 +36,6 @@ export class MemberService {
     try {
       const find = await this.prisma.member.findMany({});
 
-      if (find) {
-        throw new HttpException(
-          'failed getting all member',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
       return find;
     } catch (error) {
       if (error instanceof HttpException) {
@@ -55,11 +51,8 @@ export class MemberService {
         where: { id },
       });
 
-      if (find) {
-        throw new HttpException(
-          'failed getting member',
-          HttpStatus.BAD_REQUEST,
-        );
+      if (!find) {
+        throw new HttpException('member not found', HttpStatus.NOT_FOUND);
       }
 
       return find;
@@ -75,7 +68,10 @@ export class MemberService {
     try {
       const updt = await this.prisma.member.update({
         where: { id },
-        data: { ...updateMemberDto },
+        data: {
+          ...updateMemberDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!updt) {

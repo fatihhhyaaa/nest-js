@@ -10,7 +10,10 @@ export class BookService {
   async create(createBookDto: CreateBookDto) {
     try {
       const add = await this.prisma.book.create({
-        data: { ...createBookDto },
+        data: {
+          ...createBookDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!add) {
@@ -30,13 +33,6 @@ export class BookService {
     try {
       const find = await this.prisma.book.findMany({});
 
-      if (find) {
-        throw new HttpException(
-          'failed getting all book',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
       return find;
     } catch (error) {
       if (error instanceof HttpException) {
@@ -52,8 +48,8 @@ export class BookService {
         where: { id },
       });
 
-      if (find) {
-        throw new HttpException('failed getting book', HttpStatus.BAD_REQUEST);
+      if (!find) {
+        throw new HttpException('book not found', HttpStatus.NOT_FOUND);
       }
 
       return find;
@@ -69,7 +65,10 @@ export class BookService {
     try {
       const updt = await this.prisma.book.update({
         where: { id },
-        data: { ...updateBookDto },
+        data: {
+          ...updateBookDto,
+          updatedAt: new Date(),
+        },
       });
 
       if (!updt) {

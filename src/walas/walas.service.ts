@@ -33,13 +33,6 @@ export class WalasService {
     try {
       const find = await this.prisma.walas.findMany({});
 
-      if (find) {
-        throw new HttpException(
-          'failed getting all walas',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
       return find;
     } catch (error) {
       if (error instanceof HttpException) {
@@ -55,8 +48,8 @@ export class WalasService {
         where: { id_walas: id },
       });
 
-      if (find) {
-        throw new HttpException('failed getting walas', HttpStatus.BAD_REQUEST);
+      if (!find) {
+        throw new HttpException('walas not found', HttpStatus.NOT_FOUND);
       }
 
       return find;
