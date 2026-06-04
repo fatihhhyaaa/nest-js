@@ -10,7 +10,9 @@ import {
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
+import { Public } from 'src/auth/decorators/public.decorators';
 
+@Public()
 @Controller('member')
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}

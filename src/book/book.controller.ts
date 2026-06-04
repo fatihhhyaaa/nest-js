@@ -16,27 +16,27 @@ import { Roles } from 'src/auth/decorators/role.decorators';
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Roles('MEMBER')
+  @Roles('PETUGAS')
   @Post('create')
   create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.create(createBookDto);
   }
-  @Roles('MEMBER')
+  @Roles('MEMBER','PETUGAS')
   @Get('findall')
   findAll() {
     return this.bookService.findAll();
   }
-  @Roles('MEMBER')
+  @Roles('MEMBER','PETUGAS')
   @Get('findone/:id')
   findOne(@Param('id') id: string) {
     return this.bookService.findOne(+id);
   }
-  @Roles('MEMBER')
+  @Roles('PETUGAS')
   @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
     return this.bookService.update(+id, updateBookDto);
   }
-  @Roles('MEMBER')
+  @Roles('PETUGAS')
   @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.bookService.remove(+id);
